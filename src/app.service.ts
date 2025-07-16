@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { users } from './data';
+import { User } from 'type';
 
 @Injectable()
-export class AppService {
-  getHello(): string {
-    return 'Primera app con nestJS';
+export class UserService {
+  // get all users
+  getAllUsers(): User[] {
+    return users;
   }
 }
