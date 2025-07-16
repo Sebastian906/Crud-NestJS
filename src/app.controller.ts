@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { UserService } from './app.service';
 import { User } from 'type';
 
@@ -6,9 +6,17 @@ import { User } from 'type';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // get all users
+  // Obtener todos los usuarios
   @Get("all")
   getAllUsers(): User[] | undefined {
     return this.userService.getAllUsers();
+  }
+
+  // Obtener usuarios por ID
+  @Get(':id')
+  getUserById(@Param('id') id: string): User | undefined | { message: 
+  string } {
+    const userId = +id;
+    return this.userService.getUserById(userId);
   }
 }
