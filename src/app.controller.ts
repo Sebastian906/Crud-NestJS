@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UserService } from './app.service';
 import { User } from 'type';
 
@@ -18,5 +18,20 @@ export class UserController {
   string } {
     const userId = +id;
     return this.userService.getUserById(userId);
+  }
+
+  // Crear usuario
+  @Post("create")
+  createUser(@Body() user: Partial<User>): User | { message: string } {
+    const userData = user;
+    if (
+      !userData.name ||
+      !userData.email ||
+      !userData.phone ||
+      !userData.imageUrl 
+    ) {
+      return { message: 'Name, email, phone and image are required' };
+    }
+    return this.userService.createUser(userData);
   }
 }

@@ -14,4 +14,19 @@ export class UserService {
     const user = users.find((user) => user.id === userId);
     return user ? user : { message: `User not available with id ${userId}` }
   }
+
+  // create a new user
+  createUser(user: Partial<User>): User {
+    const newId = users[users.length - 1].id + 1;
+    const newUser: User = {
+      id: newId,
+      name: user.name ?? '',
+      email: user.email ?? '',
+      phone: user.phone ?? '',
+      imageUrl: user.imageUrl ?? '',
+      createdAt: new Date().toISOString(),
+    };
+    users.push(newUser);
+    return newUser;
+  }
 }
