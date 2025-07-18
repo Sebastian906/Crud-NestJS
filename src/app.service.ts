@@ -12,7 +12,9 @@ export class UserService {
   // get users by id
   getUserById(userId: number): User | undefined | { message: string } {
     const user = users.find((user) => user.id === userId);
-    return user ? user : { message: `User not available with id ${userId}` }
+    return user ? user : { 
+      message: `User not available with id ${userId}` 
+    }
   }
 
   // create a new user
@@ -28,5 +30,20 @@ export class UserService {
     };
     users.push(newUser);
     return newUser;
+  }
+
+  // update user
+  updateUser(
+    userId: number,
+    updatedUserFields: Partial<User>
+  ): User | undefined | {
+    message: string
+  } {
+    // check if the request body is empty
+    if (Object.keys(updatedUserFields).length === 0) {
+      return {
+        message: 'Please provide fields to update'
+      };
+    }
   }
 }
