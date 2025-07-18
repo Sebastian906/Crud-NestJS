@@ -42,9 +42,8 @@ export class UserController {
   @Put("update/:id")
   updateUser(
     @Param("id") id: string, 
-    @Body() user: Partial<User>): User | {
-    message: string
-  } {
+    @Body() user: Partial<User>,
+  ): User | undefined | { message: string } {
     return this.userService.updateUser(+id, user);
   }
 }

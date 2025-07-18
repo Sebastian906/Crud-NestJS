@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { users } from './data';
 import { User } from 'type';
+import { getCurrentUser } from './helpers';
 
 @Injectable()
 export class UserService {
@@ -45,5 +46,22 @@ export class UserService {
         message: 'Please provide fields to update'
       };
     }
+    const currentUser = getCurrentUser(userId);
+    if (!currentUser) {
+      return {
+        message: `User not available with id ${userId}`
+      };
+    }
+    const updatedUser = {
+      id: userId,
+      name: updatedUserFields.name ?? currentUser.name ?? '',
+      email: updatedUserFields.email ?? currentUser.email ?? '',
+      phone: updatedUserFields.phone ?? currentUser.phone ?? '',
+      imageUrl: updatedUserFields.imageUrl ?? currentUser.imageUrl ?? '',
+      createdAt: currentUser.createdAt ?? '',
+      updatedAt: new Date().toISOString(),
+    };
+    users[userId - 1] = updatedUser;
+    return updatedUser;
   }
 }
