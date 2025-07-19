@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Param } from '@nestjs/common';
 import { users } from './data';
 import { User } from 'type';
 import { getCurrentUser } from './helpers';
@@ -63,5 +63,19 @@ export class UserService {
     };
     users[userId - 1] = updatedUser;
     return updatedUser;
+  }
+
+  // delete a user
+  deleteUserById(userId: number): User[] | undefined | {
+    message: string
+  } {
+    const currentUser=getCurrentUser(userId)
+    if (!currentUser) {
+      return {
+        message: `User not available with id ${userId}`
+      }
+    }
+    const newUsers = users.filter((user) => user.id !== userId)
+    return newUsers;
   }
 }
